@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "knapsack"
+version = "0.1.0"
+description = "A simple Integer Program for a small knapsack problem, made with cookiecutter-gurobi-poetry"
+authors = ["Riley Clement <venaturum@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["python", "gurobi", "knapsack"]
+
+[tool.poetry.dependencies]
+python = ">=3.8, <3.11"
+gurobipy = "^9.5.1"
+numpy = "^1"
+scipy = "^1"
+gurobipy_exceptions = {git = "https://github.com/venaturum/gurobipy_exceptions.git", rev = "main"}
+
+[tool.poetry.dev-dependencies]
+isort = ">=5.8"
+black = ">=22"
+flake8 = ">=3.9"
+
+[tool.isort]
+# make it compatible with black
+profile = "black"
+multi_line_output = 3
+src_paths = ["."]
+
+[tool.poetry.scripts]
+knapsack = "knapsack.cli:main"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
