@@ -30,7 +30,7 @@ $$
   \text{max}\ & v_{1}x_{1} + v_{2}x_{2} + v_{3}x_{3},
   \\
   \text{s.t.}\ & w_{1}x_{1} + w_{2}x_{2} + w_{3}x_{3} \leq c,\\
-  & x_{1}, x_{2}, x_{3} \in \{0, 1\}.
+  & x_{1}, x_{2}, x_{3} \in \lbrace 0, 1 \rbrace .
 \end{alignat}
 $$
 
@@ -79,7 +79,7 @@ and provide the following answers to the prompts:
 
 In the terminal, navigate to the folder ("knapsack") that cookiecutter has created.
 
-Assuming Poetry has been installed, run the following command which instructs Poetry to resolve project dependencies, write the lock file (poetry.lock), and install the dependencies in a virtual environment (based off project name)
+Assuming Poetry has been installed, run the following command which instructs Poetry to resolve project dependencies, write the lock file (*poetry.lock*), and install the dependencies in a virtual environment (based off project name)
 
     poetry install
 
@@ -140,7 +140,7 @@ The body of the constructor, saves *v*, *w*, and *c* as instance attributes then
 A couple of things to note:
 
 - the line `name = "my knapsack"` defines a class attribute for `MyKnapsack`.  Look at the constructor for `GurobiBaseModel` and note that if a name is not defined, then the class default will be used for the underlying `gurobipy.Model` object.
-- the `**kwargs` parameter in the constructor allows an arbitrary number of keyword arguments to be specified.  These get passed to the GurobiBaseModel constructor where they are assumed to be parameters on the underlying `gurobipy.Model` object.
+- the `**kwargs` parameter in the constructor allows an arbitrary number of keyword arguments to be specified.  These get passed to the `GurobiBaseModel` constructor where they are assumed to be parameters on the underlying `gurobipy.Model` object.
 
 
 ## Step 5 - Understand the structure of GurobiBaseModel
@@ -156,7 +156,7 @@ The `_build` method calls several methods, in order, corresponding to
 - setting an initial solution
 - updating model
 
-With the exception of the model updates, these methods all belong to the GurobiBaseModel class, however note there is not meaningful definitions for these functions - that is the job of the MyKnapsack class, which inherits these methods.
+With the exception of the model updates, these methods all belong to the `GurobiBaseModel` class, however note there is not meaningful definitions for these functions - that is the job of the `MyKnapsack` class, which inherits these methods.
 
 
 ## Step 6 - Overwrite the inherited functions
@@ -211,7 +211,7 @@ Creating the `MyKnapsack` object has built the model, so next we run the `optimi
 
     >> m.optimize()
 
-You will likely see output from the Gurobi Solver.  Once it has solved the model, use the `print_solution` method that was defined on MyKnapsack.
+You will likely see output from the Gurobi Solver.  Once it has solved the model, use the `print_solution` method that was defined on `MyKnapsack`.
 
     >> m.print_solution()
 
