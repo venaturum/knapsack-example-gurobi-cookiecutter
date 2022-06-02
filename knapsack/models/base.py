@@ -1,4 +1,5 @@
 from abc import ABC
+from datetime import datetime
 
 import gurobipy as gp
 import gurobipy_exceptions as gp_exc
@@ -23,7 +24,9 @@ class GurobiBaseModel(ABC):
             self._m.setParam(param, value)
 
         if self._m.Params.LogFile == "":
-            self._m.Params.LogFile = str(root_dir / "logs" / f"{name}.log")
+            now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            logfile_name = (self.name + "-" if name else "") + now + ".log"
+            self._m.Params.LogFile = str(root_dir / "logs" / logfile_name)
 
     @property
     def model(self):

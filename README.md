@@ -295,11 +295,14 @@ We have two options for achieving this, we can implement the functionality on `M
 
     from knapsack import root_dir
 
-
+The filename we'll give the log file will be based off the model name and the current time
 Now append the following to the `GurobiBaseModel` constructor to complete the task.
 
     if self._m.Params.LogFile == "":
-        self._m.Params.LogFile = str(root_dir / "logs" / f"{name}.log")
+        now = datetime.now().strftime("%m-%d-%Y-%H-%M-%S")
+        logfile_name = (self.name + "-" if name else "") + now + ".log"
+        self._m.Params.LogFile = str(root_dir / "logs" / logfile_name)
+
 
 ### Step 14 - One more time
 
