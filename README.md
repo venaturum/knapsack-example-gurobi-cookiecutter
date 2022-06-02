@@ -135,17 +135,17 @@ We'll create a class called `MyKnapsack` by extending the `GurobiBaseModel`.  Ad
             self.c = c
             super().__init__(name, **kwargs)
 
-The body of the constructor, saves v, w, and c as instance attributes then calls the constructor of the superclass (ie. GurobiBaseModel).
+The body of the constructor, saves *v*, *w*, and *c* as instance attributes then calls the constructor of the superclass (ie. `GurobiBaseModel`).
 
 A couple of things to note:
 
-- the line `name = "my knapsack"` defines a class attribute for MyKnapsack.  Look at the constructor for GurobiBaseModel and note that if a name is not defined, then the class default will be used for the underlying `gurobipy.Model` object.
-- the `**kwargs` parameter in the constructor allows an arbitrary number of keyword arguments to be sepcified.  These get passed to the GurobiBaseModel constructor where they are assumed to be parameters on the underlying `gurobipy.Model` object.
+- the line `name = "my knapsack"` defines a class attribute for `MyKnapsack`.  Look at the constructor for `GurobiBaseModel` and note that if a name is not defined, then the class default will be used for the underlying `gurobipy.Model` object.
+- the `**kwargs` parameter in the constructor allows an arbitrary number of keyword arguments to be specified.  These get passed to the GurobiBaseModel constructor where they are assumed to be parameters on the underlying `gurobipy.Model` object.
 
 
 ## Step 5 - Understand the structure of GurobiBaseModel
 
-Take a look at the GurobiBaseModel constructor.  It calls the constructor of its superclass, then possibly sets the `name` instance attribute, then creates and assigns a `gurobipy.Model` object, and then calls its `_build` method.
+Take a look at the `GurobiBaseModel` constructor.  It calls the constructor of its superclass, then possibly sets the `name` instance attribute, then creates and assigns a `gurobipy.Model` object, and then calls its `_build` method.
 
 The `_build` method calls several methods, in order, corresponding to
 
@@ -153,7 +153,7 @@ The `_build` method calls several methods, in order, corresponding to
 - updating model
 - adding constraints
 - setting objective
-- setting an inital solution
+- setting an initial solution
 - updating model
 
 With the exception of the model updates, these methods all belong to the GurobiBaseModel class, however note there is not meaningful definitions for these functions - that is the job of the MyKnapsack class, which inherits these methods.
@@ -161,7 +161,7 @@ With the exception of the model updates, these methods all belong to the GurobiB
 
 ## Step 6 - Overwrite the inherited functions
 
-Next we will add the following definitions in the MyKnapsack class.  In doing so we are overwriting the inherited methods.
+Next we will add the following definitions in the `MyKnapsack` class.  In doing so we are overwriting the inherited methods.
 
     def _add_variables(self):
         self.x1 = self.model.addVar(vtype=GRB.BINARY, name="x1")
@@ -182,14 +182,14 @@ Next we will add the following definitions in the MyKnapsack class.  In doing so
 
 Note that when using `self.model` we are calling the `GurobiBaseModel.model` method, which returns the underlying `gurobipy.Model` object.  Although a method, it appears as an attribute thanks to the `@property` decorator.
 
-Also note that the *x* variables are assigned as instance attributes, and referred to when adding constraints, and setting objective.  Be aware there are more efficient ways of adding variables, but is stated in this form for simplicity.
+Also note that the *x* variables are assigned as instance attributes, and referred to when adding constraints, and setting the objective.  Be aware there are more efficient ways of adding variables, but is stated in this form for simplicity.
 
 
 ### Step 7 - Add an extra method
 
-We do not have to overwrite every method that is defined in the GurobiBaseModel superclass.  For instance, we are not providing an initial solution, so do not define the corresponding method in the MyKnapsack class - it will simply inherit the "empty" method.
+We do not have to overwrite every method that is defined in the `GurobiBaseModel` superclass.  For instance, we are not providing an initial solution, so do not define the corresponding method in the `MyKnapsack` class - it will simply inherit the "empty" method.
 
-We are also not resricted to only defining methods which are specified in the superclass.  Add the following to MyKnapsack so that we can easily see the solution, if we wish.
+We are also not resricted to only defining methods which are specified in the superclass.  Add the following to `MyKnapsack` so that we can easily see the solution, if we wish.
 
     def print_solution(self):
         for v in self.model.getVars():
@@ -204,10 +204,10 @@ Open a Python shell, or Gurobi shell, in your virtual environment.  Run the foll
     >> from knapsack.models.my_models import MyKnapsack
     >> m = MyKnapsack(v=[1,1,2], w=[1,2,3], c=4, MIPFocus=1)
 
-The first line imports the MyKnapsack class we defined.
+The first line imports the `MyKnapsack` class we defined.
 The second line creates an object of this type.  Note that in doing so we are setting the `MIPFocus` parameter of the underlying `gurobipy.Model` to 1.  Alternatively we could have used `m.model.setParam("MIPFocus", 1)` after creating the object.
 
-Creating the MyKnapsack object has built the model, so next we run the `optimize` method on our object.
+Creating the `MyKnapsack` object has built the model, so next we run the `optimize` method on our object, which calls the method of the same name on the underlying `gurobipy.Model`.
 
     >> m.optimize()
 
@@ -228,9 +228,9 @@ So the optimal solution is to choose the first and third objects!  Next we will 
 
 For the purposes of demonstration, lets define a second problem by assuming a further restriction to the problem which declares that item 1 and 3 cannot both be chosen together (and the optimal solution found above is no longer valid).  This requirement corresponds to the following constraint
 
-$$ x_{1} + x_{3} \leq 1$$.
+$$ x_{1} + x_{3} \leq 1$$
 
-The simplest implementation is to define a new class MyKnapsack2, which extends MyKnapsack, and overwrites the function which adds constraints:
+The simplest implementation is to define a new class `MyKnapsack2`, which extends `MyKnapsack`, and overwrites the function responsible for adding constraints:
 
     class MyKnapsack2(MyKnapsack):
 
@@ -238,7 +238,7 @@ The simplest implementation is to define a new class MyKnapsack2, which extends 
             super()._add_constraints()
             self.model.addConstr(self.x1 + self.x3 <= 1, "c1")
 
-In this definition, we first call the `_add_constraints` method in the superclass, which will add the constraint defined in the initial problem, and then we add the new constraint.  Note that we could have written these lines in any order.
+In this definition, we first call the `_add_constraints` method in the superclass (`MyKnapsack`), which will add the constraint defined in the initial problem, and then we add the new constraint.  Note that we could have written these lines in any order.
 
 
 ### Step 10 - Here we go again
@@ -261,9 +261,9 @@ The new solution is to choose the first and second item!
 
 ### Step 11 - Defining a callback
 
-The `_generate_root_sol_callback` method defined on GurobiBaseModel was another empty method that we did not overwrite in the MyKnapsack (or MyKnapsack2) subclass.  The idea is that the result of this method should be passed into the `optimize` method of the underlying `gurobipy.Model`.  What sort of argument is the `optimize` method expecting?  It is a function, specifically ones with parameter *model* and *where*.
+The `_generate_root_sol_callback` method defined on `GurobiBaseModel` was another empty method that we did not overwrite in the `MyKnapsack` (or `MyKnapsack2`) subclass.  The idea is that the result of this method should be passed into the `optimize` method of the underlying `gurobipy.Model`.  If the function is not defined then it will simpy pass `None` in, which is equivalent to not passing anything at all.  What sort of argument is the `optimize` method expecting, if not `None`?  It is expecting *a function*, specifically ones with parameters *model* and *where*.
 
-Functions are "first class citizens" in Python, which is developer-speak for saying we can do lots of fun stuff with them, including assigning to a variable, or returning them from another function.  The latter is precisely what we will do with the code below.  Specifically, let's define a callback which records the current phase in the MIP solution.  We'll assume we have a list defined as an instance attribute in MyKnapsack2 called `mipsol_phase1` then define the following:
+Functions are ["first class citizens"](https://en.wikipedia.org/wiki/First-class_function) in Python, which is developer-speak for saying we can do lots of fun stuff with them, including assigning to a variable, or returning them from another function.  The latter is what we will do with the code below.  Specifically, let's define a callback which records the current phase in the MIP solution.  We'll assume we have a list defined as an instance attribute in `MyKnapsack2` called `mipsol_phase1` then define the following:
 
     def _generate_root_sol_callback(self):
         def callback(model, where):
@@ -272,14 +272,14 @@ Functions are "first class citizens" in Python, which is developer-speak for say
 
         return callback
 
-What we have done here is not trivial, and can be confronting for those new to Python.  We are defining a function called `callback` which gets returned when we call `_generate_root_sol_callback`.  This callback is responsible for querying the MIP solution phase and appending it to a list, but note that the list will be an attribute of MyKnapsack2 objects.  This construct is called a "closure" - a function that "remembers" values.  In this case it is the "self" argument, i.e. the MyKnapsack2 object which is remembered.  This design is very flexible and allows us to access or save data which would not usually be available through just the *model* or *where* parameters.
+What we have done here is not trivial, and can be confronting for those new to Python.  We are defining a function called `callback` which gets returned when we call `_generate_root_sol_callback`.  This callback is responsible for querying the MIP solution phase and appending it to a list, but note that the list will be an attribute of `MyKnapsack2` objects.  This construct is called a ["closure"](https://www.learnpython.org/en/Closures) - a function that "remembers" values.  In this case it is the "self" argument, i.e. the `MyKnapsack2` object which is remembered.  This design is very flexible and allows us to access or save data which would not usually be available through just the *model* or *where* parameters.
 
 
 ### Step 12 - Plug the gaps
 
 In the previous step we assumed there was an instance attribute called `mipsol_phase`.  In this step we will make this assumption concrete.
 
-To achieve this we need to create an empty list when initialising MyKnapsack2 - we will need to do this in a constructor:
+To achieve this we need to create an empty list when initialising `MyKnapsack2` - we will need to do this in a constructor:
 
     def __init__(self, *args, **kwargs):
         self.mipsol_phase = []
