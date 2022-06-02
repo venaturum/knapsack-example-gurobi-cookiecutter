@@ -26,7 +26,7 @@ class MyKnapsack(GurobiBaseModel):
         self.v = v
         self.w = w
         self.c = c
-        super().__init__(name, **kwargs)
+        super().__init__(name=name, **kwargs)
 
     def _add_variables(self):
         self.x1 = self.model.addVar(vtype=GRB.BINARY, name="x1")

@@ -287,8 +287,21 @@ To achieve this we need to create an empty list when initialising `MyKnapsack2` 
 
 This sole responsibility of this constructor is to define the empty list.  It does nothing with whatever positional arguments (`*args`) or keyword arguments (`**kwargs`) are provided, other than pass them onto the superclass.
 
+### Step 13 - Root directory access
 
-### Step 13 - One more time
+A nice feature of the template is that it sets up a property on your top level module called `root_dir` which gives us the directory of our project.  Specifically this property is of type `Path` from Python's [pathlib library](https://docs.python.org/3/library/pathlib.html), but can be easily converted to a string if that's how you prefer to work.  We'll use this to automatically have our models write to the *logs/* directory that cookiecutter created for us.
+
+We have two options for achieving this, we can implement the functionality on `MyKnapsack` or we can do it on `GurobiBaseModel`. Let's do it on the latter, and let's do it in a way that allows the user to overwrite the value - we can achieve this simply by checking if, after initialising the model, the *LogFile* parameter has been set or not.  Firstly insert the following line at the top of *knapsack/models/base.py* so that we can use this `root_dir` variable in the code:
+
+    from knapsack import root_dir
+
+
+Now append the following to the `GurobiBaseModel` constructor to complete the task.
+
+    if self._m.Params.LogFile == "":
+        self._m.Params.LogFile = str(root_dir / "logs" / f"{name}.log")
+
+### Step 14 - One more time
 
 Running the same code from Step 10 results in a single solution found.  After the optimisation has finished, run
 
@@ -296,6 +309,7 @@ Running the same code from Step 10 results in a single solution found.  After th
 
 which results in `[1]`, which indicates the solution was found during the standard MIP search, as opposed to in the *NoRel heuristic* or performing MIP solution improvement.
 
+Now check to see that there is a log file in the *logs* folder.
 
 ## License
 

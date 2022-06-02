@@ -3,6 +3,8 @@ from abc import ABC
 import gurobipy as gp
 import gurobipy_exceptions as gp_exc
 
+from knapsack import root_dir
+
 
 class GurobiBaseModel(ABC):
 
@@ -19,6 +21,9 @@ class GurobiBaseModel(ABC):
 
         for param, value in kwargs.items():
             self._m.setParam(param, value)
+
+        if self._m.Params.LogFile == "":
+            self._m.Params.LogFile = str(root_dir / "logs" / f"{name}.log")
 
     @property
     def model(self):
