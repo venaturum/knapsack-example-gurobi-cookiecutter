@@ -58,3 +58,13 @@ class GurobiBaseModel(ABC):
     @gp_exc.patch_error_message
     def optimize(self):
         self._m.optimize(self._generate_root_sol_callback())
+
+    @classmethod
+    def run(cls, *args, name=None, **kwargs):
+        instance = cls(*args, name=name, **kwargs)
+        instance.optimize()
+        return instance
+
+    @classmethod
+    def make_model(cls, *args, name=None, **kwargs):
+        return cls(*args, name=name, **kwargs).model
