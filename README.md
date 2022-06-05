@@ -2,7 +2,7 @@
 
 What follows below will aim to achieve two outcomes.  The first is to demonstrate the use of `cookiecutter`, with the [`cookiecutter-gurobi-poetry`](https://github.com/venaturum/cookiecutter-gurobi-poetry) template to produce a project.  The second is to provide motivation for the template structure and the intent for how it should be used.
 
-This example will be presented as an informal tutorial.  It will assume a familiarity with the [Gurobi Solver](https://www.gurobi.com/), the Python package `gurobipy`, and a basic knowledge of Python - however intermediate concepts will be introduced along the way including classes, inheritance and closures.
+This example will be presented as an informal tutorial.  It will assume a familiarity with [Gurobi Optimizer](https://www.gurobi.com/products/gurobi-optimizer/), the Python package `gurobipy`, and a basic knowledge of Python - however intermediate concepts will be introduced along the way including classes, inheritance and closures.
 
 To facilitate this tutorial we will consider two knapsack problems.  One is an extension of the other, and both are very similar to the simple Mixed Integer Program (MIP) that is featured in Gurobi's [mip1.py](https://www.gurobi.com/documentation/9.5/examples/mip1_py.html) example.  At the conclusion of the tutorial, your project will look like the one in this repository.
 
@@ -214,7 +214,7 @@ Creating the `MyKnapsack` object has built the model, so next we run the `optimi
 
     >> m.optimize()
 
-You will likely see output from the Gurobi Solver.  Once it has solved the model, use the `print_solution` method that was defined on `MyKnapsack`.
+You will likely see output from Gurobi Optimizer.  Once it has solved the model, use the `print_solution` method that was defined on `MyKnapsack`.
 
     >> m.print_solution()
 
@@ -253,7 +253,7 @@ Run the following
     >> m2.optimize()
     >> m2.print_solution()
 
-which (after output from the Gurobi Solver) results in:
+which (after output from Gurobi Optimizer) results in:
 
     x1 = 1.0
     x2 = 1.0
