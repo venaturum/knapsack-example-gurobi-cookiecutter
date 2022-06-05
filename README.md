@@ -1,10 +1,10 @@
 # A knapsack example using cookiecutter-gurobi-poetry
 
-What follows below will aim to achieve two outcomes.  The first is to demonstrate the use of `cookiecutter`, with the `cookiecutter-gurobi-poetry` template to produce a project.  The second is to provide motivation for the template structure and the intent for how it should be used.
+What follows below will aim to achieve two outcomes.  The first is to demonstrate the use of `cookiecutter`, with the [`cookiecutter-gurobi-poetry`](https://github.com/venaturum/cookiecutter-gurobi-poetry) template to produce a project.  The second is to provide motivation for the template structure and the intent for how it should be used.
 
 This example will be presented as an informal tutorial.  It will assume a familiarity with the [Gurobi Solver](https://www.gurobi.com/), the Python package `gurobipy`, and a basic knowledge of Python - however intermediate concepts will be introduced along the way including classes, inheritance and closures.
 
-To facilitate this tutorial we will consider two knapsack problems.  One is an extension of the other, and both are very similar to the simple Mixed Integer Program (MIP) that is featured in Gurobi's [mip1.py](https://www.gurobi.com/documentation/9.5/examples/mip1_py.html) example.
+To facilitate this tutorial we will consider two knapsack problems.  One is an extension of the other, and both are very similar to the simple Mixed Integer Program (MIP) that is featured in Gurobi's [mip1.py](https://www.gurobi.com/documentation/9.5/examples/mip1_py.html) example.  At the conclusion of the tutorial, your project will look like the one in this repository.
 
 The following are required for this tutorial
 
@@ -64,11 +64,14 @@ and provide the following answers to the prompts:
     6 - GNU Lesser General Public License v2.1
     7 - BSD 2-Clause 'Simplified' License
     8 - Not open source
+    use_matrix_api [y]: n
     use_gurobipy_exceptions [y]: y
-    use_notebooks [n]: n
+    use_numpy [y]: n
+    use_scipy [y]: n
     use_pandas [n]: n
     use_matplotlib [n]: n
     use_seaborn [n]: n
+    use_notebooks [n]: n
     use_isort [y]: y
     use_black [y]: y
     use_flake8 [y]: y
@@ -313,6 +316,17 @@ Running the same code from Step 10 results in a single solution found.  After th
 which results in `[1]`, which indicates the solution was found during the standard MIP search, as opposed to in the *NoRel heuristic* or performing MIP solution improvement.
 
 Now check to see that there is a log file in the *logs* folder.
+
+
+## A final word
+
+Hopefully you have enjoyed following this tutorial, and found some of the ideas useful.  There are a couple of class methods on `GurobiBaseModel` that were not covered in the above material but you can find a demo on using them in the *scripts* folder.
+
+Feedback is welcome - bugs and suggestions for this tutorial can be submitted in the [Issues Tracker](https://github.com/venaturum/knapsack-example-gurobi-cookiecutter/issues).
+
+Feedback related to the Cookiecutter template itself should be submitted to the [Issues Tracker for cookiecutter-gurobi-poetry](https://github.com/venaturum/cookiecutter-gurobi-poetry).
+
+Note that if you would like to see changes specific to your own needs, e.g. the addition of folders or code inline with your workflow, then consider forking this repository to implement them on your own personal cookiecutter template!
 
 ## License
 
