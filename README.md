@@ -9,7 +9,7 @@ To facilitate this tutorial we will consider two knapsack problems.  One is an e
 The following are required for this tutorial
 
  - Python 3.8+
- - Gurobi Solver installed, with valid license
+ - [Gurobi Optimizer](https://www.gurobi.com/products/gurobi-optimizer/), with valid license
  - [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
  - [Poetry](https://python-poetry.org/docs/#installation)
 
